@@ -37,11 +37,14 @@ export const exigerRoles = (roles: ("ADMIN" | "USER")[]) => {
       return res.status(401).json({ message: "Non authentifié" });
     }
 
-    if (!roles.includes(utilisateur.role)) {
+    const role = utilisateur.role?.toUpperCase(); // 🔥 Normalisation
+
+    if (!roles.includes(role)) {
       return res.status(403).json({ message: "Accès refusé" });
     }
 
     next();
   };
 };
+
 

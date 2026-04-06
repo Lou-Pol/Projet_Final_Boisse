@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { repondreErreur } from "../utils/erreurs";
 import { produitsService } from "../services/produitsService";
-import { exigerRoles } from "../middleware/auth";
+import { verifierToken,exigerRoles } from "../middleware/auth";
 
 const routeur = Router();
 
@@ -14,7 +14,7 @@ routeur.get("/", async (_req, res) => {
   }
 });
 
-routeur.post("/", exigerRoles(["USER"]), async (req, res) => {
+routeur.post("/", verifierToken,exigerRoles(["USER"]), async (req, res) => {
   try {
     const { nom, prix, stock, categorie } = req.body;
     if (!nom || !categorie) {
@@ -43,7 +43,7 @@ routeur.post("/", exigerRoles(["USER"]), async (req, res) => {
   }
 });
 
-routeur.put("/:id", exigerRoles(["USER"]), async (req, res) => {
+routeur.put("/:id", verifierToken,exigerRoles(["USER"]), async (req, res) => {
   try {
     const id = Number(req.params.id);
     const { nom, prix, stock, categorie } = req.body;
@@ -70,7 +70,7 @@ routeur.put("/:id", exigerRoles(["USER"]), async (req, res) => {
   }
 });
 
-routeur.delete("/:id", exigerRoles(["USER"]), async (req, res) => {
+routeur.delete("/:id", verifierToken,exigerRoles(["USER"]), async (req, res) => {
   try {
     const id = Number(req.params.id);
     await produitsService.supprimer(id);

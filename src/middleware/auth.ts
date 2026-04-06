@@ -29,7 +29,7 @@ export const exigerRoles = (roles: ("ADMIN" | "USER")[]) => {
       return res.status(401).json({ message: "Non authentifié" });
     }
 
-    const role = utilisateur.role?.toLowerCase(); 
+    const role = utilisateur.role?.toUpperCase(); 
 
     if (!roles.includes(role)) {
       return res.status(403).json({ message: "Accès refusé" });

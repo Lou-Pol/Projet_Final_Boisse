@@ -3,9 +3,17 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
+interface UtilisateurApi {
+  id: number;
+  email: string;
+}
+
 export const connexionSansMotDePasse = async (email: string) => {
-  const { data: users } = await axios.get("https://jsonplaceholder.typicode.com/users");
-  const user = users.find((u: any) => u.email === email);
+  const { data: users } = await axios.get<UtilisateurApi[]>(
+    "https://jsonplaceholder.typicode.com/users"
+  );
+
+  const user = users.find((u) => u.email === email);
 
   if (!user) {
     throw new Error("Email inconnu dans JSONPlaceholder");

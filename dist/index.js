@@ -1,0 +1,25 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+require("dotenv/config");
+const express_1 = __importDefault(require("express"));
+const cors_1 = __importDefault(require("cors"));
+const auth_1 = __importDefault(require("./routes/auth"));
+const adminUsers_1 = __importDefault(require("./routes/adminUsers"));
+const clients_1 = __importDefault(require("./routes/clients"));
+const produits_1 = __importDefault(require("./routes/produits"));
+const commandes_1 = __importDefault(require("./routes/commandes"));
+const auth_2 = require("./middleware/auth");
+const app = (0, express_1.default)();
+app.use((0, cors_1.default)());
+app.use(express_1.default.json());
+app.get("/api/sante", (_req, res) => res.json({ statut: "ok" }));
+app.use("/api/auth", auth_1.default);
+app.use("/api/admin/users", auth_2.verifierToken, (0, auth_2.exigerRoles)(["ADMIN"]), adminUsers_1.default);
+app.use("/api/clients", auth_2.verifierToken, (0, auth_2.exigerRoles)(["USER"]), clients_1.default);
+app.use("/api/produits", auth_2.verifierToken, (0, auth_2.exigerRoles)(["USER"]), produits_1.default);
+app.use("/api/commandes", auth_2.verifierToken, (0, auth_2.exigerRoles)(["USER"]), commandes_1.default);
+const PORT = process.env.PORT || 4000;
+app.listen(PORT, () => console.log(`Backend sur ${PORT}`));

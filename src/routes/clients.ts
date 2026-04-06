@@ -6,8 +6,8 @@ import { exigerRoles } from "../middleware/auth";
 
 const routeur = Router();
 
-// 📌 Lecture : ADMIN + USER
-routeur.get("/", exigerRoles(["ADMIN", "USER"]), async (_req, res) => {
+// 📌 Lecture : PUBLIC (pour dashboard)
+routeur.get("/", async (_req, res) => {
   try {
     const clients = await clientsService.lister();
     res.json(clients);
@@ -16,8 +16,8 @@ routeur.get("/", exigerRoles(["ADMIN", "USER"]), async (_req, res) => {
   }
 });
 
-// 📌 Commandes d’un client : ADMIN + USER
-routeur.get("/:id/commandes", exigerRoles(["ADMIN", "USER"]), async (req, res) => {
+// 📌 Commandes d’un client : PUBLIC (lecture)
+routeur.get("/:id/commandes", async (req, res) => {
   try {
     const idClient = Number(req.params.id);
     const commandes = await commandesService.listerParClient(idClient);

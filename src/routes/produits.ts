@@ -5,8 +5,8 @@ import { exigerRoles } from "../middleware/auth";
 
 const routeur = Router();
 
-// 📌 Lecture : ADMIN + USER
-routeur.get("/", exigerRoles(["ADMIN", "USER"]), async (_req, res) => {
+// 📌 Lecture : PUBLIC (pour dashboard)
+routeur.get("/", async (_req, res) => {
   try {
     const produits = await produitsService.lister();
     res.json(produits);

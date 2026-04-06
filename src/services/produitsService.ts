@@ -15,12 +15,12 @@ export const produitsService = {
     }),
 
   supprimer: async (id: number) => {
-    // 1) Supprimer les lignes de commande liées au produit
+    // Supprimer les lignes de commande liées au produit
     await prisma.ligneCommande.deleteMany({
       where: { idProduit: id }
     });
 
-    // 2) Supprimer le produit
+    // Supprimer le produit
     return prisma.produit.delete({
       where: { id }
     });

@@ -54,13 +54,13 @@ export const commandesService = {
   },
 
   supprimer: async (id: number) => {
-  // 1) Récupérer les lignes de la commande
+  // Récupérer les lignes de la commande
   const lignes = await prisma.ligneCommande.findMany({
     where: { idCommande: id },
     include: { produit: true }
   });
 
-  // 2) Réajouter le stock pour chaque produit
+  // Réajouter le stock pour chaque produit
   for (const l of lignes) {
     await prisma.produit.update({
       where: { id: l.idProduit },
@@ -68,12 +68,12 @@ export const commandesService = {
     });
   }
 
-  // 3) Supprimer les lignes
+  // Supprimer les lignes
   await prisma.ligneCommande.deleteMany({
     where: { idCommande: id }
   });
 
-  // 4) Supprimer la commande
+  // Supprimer la commande
   return prisma.commande.delete({
     where: { id }
   });

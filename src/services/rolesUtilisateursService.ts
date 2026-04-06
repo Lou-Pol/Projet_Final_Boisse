@@ -3,7 +3,7 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 /**
- * Retourne l'utilisateur local (donc son rôle)
+ * Retourne l'utilisateur local 
  */
 export const obtenirRolePourUtilisateur = async (idJsonPlaceholder: number) => {
   return prisma.utilisateurLocal.findUnique({

@@ -6,7 +6,6 @@ import { exigerRoles } from "../middleware/auth";
 
 const routeur = Router();
 
-// 📌 Lecture : PUBLIC (pour dashboard)
 routeur.get("/", async (_req, res) => {
   try {
     const clients = await clientsService.lister();
@@ -16,7 +15,6 @@ routeur.get("/", async (_req, res) => {
   }
 });
 
-// 📌 Commandes d’un client : PUBLIC (lecture)
 routeur.get("/:id/commandes", async (req, res) => {
   try {
     const idClient = Number(req.params.id);
@@ -27,7 +25,6 @@ routeur.get("/:id/commandes", async (req, res) => {
   }
 });
 
-// 📌 Création : USER uniquement
 routeur.post("/", exigerRoles(["USER"]), async (req, res) => {
   try {
     const { nom, email } = req.body;
@@ -41,7 +38,6 @@ routeur.post("/", exigerRoles(["USER"]), async (req, res) => {
   }
 });
 
-// 📌 Modification : USER uniquement
 routeur.put("/:id", exigerRoles(["USER"]), async (req, res) => {
   try {
     const id = Number(req.params.id);
@@ -53,7 +49,6 @@ routeur.put("/:id", exigerRoles(["USER"]), async (req, res) => {
   }
 });
 
-// 📌 Suppression : USER uniquement
 routeur.delete("/:id", exigerRoles(["USER"]), async (req, res) => {
   try {
     const id = Number(req.params.id);

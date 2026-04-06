@@ -3,10 +3,6 @@ import jwt from "jsonwebtoken";
 
 const CLE = process.env.JWT_SECRET || "dev-secret";
 
-/**
- * Vérifie la présence et la validité du token JWT.
- * Ajoute l'utilisateur décodé dans req.utilisateur.
- */
 export const verifierToken = (req: Request, res: Response, next: NextFunction) => {
   const header = req.headers.authorization;
 
@@ -25,10 +21,6 @@ export const verifierToken = (req: Request, res: Response, next: NextFunction) =
   }
 };
 
-/**
- * Vérifie que l'utilisateur possède le rôle requis.
- * Utilisation : exigerRole("ADMIN") ou exigerRole("USER")
- */
 export const exigerRoles = (roles: ("ADMIN" | "USER")[]) => {
   return (req: any, res: any, next: any) => {
     const utilisateur = req.utilisateur;
@@ -37,7 +29,7 @@ export const exigerRoles = (roles: ("ADMIN" | "USER")[]) => {
       return res.status(401).json({ message: "Non authentifié" });
     }
 
-    const role = utilisateur.role?.toUpperCase(); // 🔥 Normalisation
+    const role = utilisateur.role?.toUpperCase(); 
 
     if (!roles.includes(role)) {
       return res.status(403).json({ message: "Accès refusé" });

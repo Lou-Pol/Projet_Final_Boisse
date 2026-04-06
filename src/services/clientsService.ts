@@ -15,7 +15,7 @@ export const clientsService = {
     }),
 
   supprimer: async (id: number) => {
-    // 1) Supprimer les commandes du client
+    // Supprimer les commandes du client
     const commandes = await prisma.commande.findMany({
       where: { idClient: id }
     });
@@ -30,7 +30,7 @@ export const clientsService = {
       });
     }
 
-    // 2) Supprimer le client
+    // Supprimer le client
     return prisma.client.delete({
       where: { id }
     });

@@ -15,7 +15,6 @@ interface UtilisateurApi {
   email: string;
 }
 
-// 📌 Lecture : ADMIN uniquement
 routeur.get("/", exigerRoles(["ADMIN"]), async (_req, res) => {
   try {
     const rep = await axios.get<UtilisateurApi[]>(
@@ -44,7 +43,6 @@ routeur.get("/", exigerRoles(["ADMIN"]), async (_req, res) => {
   }
 });
 
-// 📌 Modification rôle : ADMIN uniquement
 routeur.put("/:idJsonPlaceholder/role", exigerRoles(["ADMIN"]), async (req, res) => {
   try {
     const idJsonPlaceholder = Number(req.params.idJsonPlaceholder);

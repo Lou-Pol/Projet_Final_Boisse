@@ -14,12 +14,20 @@ app.use(express.json());
 
 app.get("/api/sante", (_req, res) => res.json({ statut: "ok" }));
 
+// Auth publique
 app.use("/api/auth", authRoutes);
 
+// ADMIN USERS → protégé
 app.use("/api/admin/users", verifierToken, exigerRoles(["ADMIN"]), adminUsersRoutes);
-app.use("/api/clients", verifierToken, exigerRoles(["USER"]), clientsRoutes);
-app.use("/api/produits", verifierToken, exigerRoles(["USER"]), produitsRoutes);
-app.use("/api/commandes", verifierToken, exigerRoles(["USER"]), commandesRoutes);
+
+// CLIENTS → GET public, le reste protégé dans le fichier de route
+app.use("/api/clients", clientsRoutes);
+
+// PRODUITS → GET public, le reste protégé dans le fichier de route
+app.use("/api/produits", produitsRoutes);
+
+// COMMANDES → GET public, le reste protégé dans le fichier de route
+app.use("/api/commandes", commandesRoutes);
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => console.log(`Backend sur ${PORT}`));

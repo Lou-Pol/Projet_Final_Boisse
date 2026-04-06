@@ -63,5 +63,8 @@ routeur.delete("/:id", exigerRoles(["USER"]), async (req, res) => {
     repondreErreur(res, e, "Erreur suppression client");
   }
 });
+routeur.get("/test", (_req, res) => {
+  res.json({ ok: true });
+});
 
 export default routeur;

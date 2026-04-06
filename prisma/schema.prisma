@@ -1,0 +1,48 @@
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model UtilisateurLocal {
+  id                Int    @id @default(autoincrement())
+  idJsonPlaceholder Int    @unique
+  email             String @unique
+  role              String   // "admin" | "user"
+}
+
+model Client {
+  id        Int      @id @default(autoincrement())
+  nom       String
+  email     String
+  commandes Commande[]
+}
+
+model Produit {
+  id        Int      @id @default(autoincrement())
+  nom       String
+  prix      Float
+  stock     Int
+  categorie String
+  lignes    LigneCommande[]
+}
+
+model Commande {
+  id       Int      @id @default(autoincrement())
+  idClient Int
+  client   Client   @relation(fields: [idClient], references: [id])
+  statut   String   // "EN_COURS" | "LIVREE"
+  lignes   LigneCommande[]
+}
+
+model LigneCommande {
+  id         Int      @id @default(autoincrement())
+  idCommande Int
+  commande   Commande @relation(fields: [idCommande], references: [id])
+  idProduit  Int
+  produit    Produit  @relation(fields: [idProduit], references: [id])
+  quantite   Int
+}

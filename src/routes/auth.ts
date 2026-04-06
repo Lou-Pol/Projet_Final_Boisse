@@ -27,7 +27,7 @@ routeur.post("/login", async (req, res) => {
       utilisateur: {
         id: utilisateur.id,
         email: utilisateur.email,
-        role: utilisateur.role
+        role: utilisateur.role.toLowerCase()
       }
     });
   } catch (e) {
